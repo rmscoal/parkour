@@ -1,18 +1,19 @@
+/* eslint-disable strict */
+/* eslint-disable lines-around-directive */
+/* eslint-disable import/no-dynamic-require */
+'use strict';
+
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
+const process = require('process');
 
 const basename = path.basename(__filename);
-const AppConfig = require('../../config/config');
-
-const env = AppConfig.env || 'development';
-
-const config = require('../config/config')[env];
-
+const env = process.env.NODE_ENV || 'development';
+const config = require(`${__dirname}/../config/config`)[env];
 const db = {};
 
 const sequelize = new Sequelize(`${config.url}`, config);
-// const sequelize = new Sequelize(`${config.url}?sslmode=disabled`, config);
 
 fs
   .readdirSync(__dirname)

@@ -4,13 +4,19 @@ const logger = require('../../config/logger');
 module.exports = {
   development: {
     // url: config.pg_url,
-    url: 'postgres://rmscoal:password@localhost:5432/parkour_dev',
+    url: 'postgres://rmscoal:password@localhost:5432/parkour_development',
     protocol: 'postgres',
     dialect: 'postgres',
     dialectOption: {
       ssl: {
         rejectUnauthorized: false,
       },
+    },
+    pool: {
+      max: 5,
+      min: 0,
+      acquire: 30000,
+      idle: 10000,
     },
   },
   test: {
