@@ -2,7 +2,7 @@ const { validationResult } = require('express-validator');
 const httpStatus = require('http-status');
 // const { QueryTypes } = require('sequelize');
 const logger = require('../config/logger');
-const { Parking } = require('../db/models');
+const { parking } = require('../db/models');
 
 const getParking = async (req, res) => {
   res.status(httpStatus.CREATED).json(req.body);
@@ -19,17 +19,23 @@ const registerParking = async (req, res) => {
   }
 
   try {
-    const model = req.body;
+    const data = req.body;
 
-    const parking = await Parking.create({
-      vech_type: model.vech_type,
-      vech_num: model.vech_num,
+    // Generate
+    if (!data.in_time) {
+      data.in_time = new Date(new Date().toLocaleDateString('en', { timeZone: 'Asia/Jakarta' }));
+    }
+
+    const newParking = await parking.create({
+      vech_type: data.vech_type,
+      vech_num: data.vech_num,
+      in_time: data.in_time,
     });
 
-    await parking.save();
+    // await parking.save();
 
     return res.status(httpStatus.CREATED).json({
-      data: parking.toJSON(),
+      data: newParking.toJSON(),
     });
   } catch (err) {
     logger.error(`There occured an error: ${err.message}`);
