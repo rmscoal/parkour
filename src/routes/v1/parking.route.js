@@ -6,6 +6,10 @@ const router = express.Router();
 
 router
   .route('/in')
-  .post(requestValidation.registerParkingValidation('registeringParking'), parkingController.registerParking);
+  .post(requestValidation.parkingValidation('registeringParking'), parkingController.registerParking);
+
+router
+  .route('/out')
+  .post(requestValidation.parkingValidation('unregisterParking'), parkingController.unregisterParking);
 
 module.exports = router;

@@ -4,10 +4,6 @@ const httpStatus = require('http-status');
 const logger = require('../config/logger');
 const { parking } = require('../db/models');
 
-const getParking = async (req, res) => {
-  res.status(httpStatus.CREATED).json(req.body);
-};
-
 const registerParking = async (req, res) => {
   const errors = validationResult(req);
 
@@ -46,7 +42,22 @@ const registerParking = async (req, res) => {
   }
 };
 
+const unregisterParking = async (req, res) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    logger.warn('Unsuccessful request processed');
+    return res.status(httpStatus.UNPROCESSABLE_ENTITY).json({
+      errors: errors.array(),
+    });
+  }
+
+  return res.status(httpStatus.OK).json({
+    meessage: 'hello',
+  });
+};
+
 module.exports = {
-  getParking,
   registerParking,
+  unregisterParking,
 };
