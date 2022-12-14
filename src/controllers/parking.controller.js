@@ -21,9 +21,9 @@ const registerParking = async (req, res) => {
   try {
     const data = req.body;
 
-    // Generate
+    // Generate local time if in_time is not passed
     if (!data.in_time) {
-      data.in_time = new Date(new Date().toLocaleDateString('en', { timeZone: 'Asia/Jakarta' }));
+      data.in_time = new Date(new Date().toLocaleString('en', { timeZone: 'Asia/Jakarta' }));
     }
 
     const newParking = await parking.create({
@@ -31,8 +31,6 @@ const registerParking = async (req, res) => {
       vech_num: data.vech_num,
       in_time: data.in_time,
     });
-
-    // await parking.save();
 
     return res.status(httpStatus.CREATED).json({
       data: newParking.toJSON(),
