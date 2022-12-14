@@ -20,9 +20,11 @@ module.exports = {
     },
   },
   test: {
+    url: process.env.PG_URL,
     dialect: 'postgres',
   },
   production: {
+    url: process.env.PG_URL,
     dialect: 'postgres',
   },
   logging: (...msg) => logger.debug(msg),

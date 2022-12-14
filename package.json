@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "cross-env NODE_ENV=development nodemon src/index.js"
+    "dev": "cross-env NODE_ENV=development nodemon src/index.js",
+    "migrate": "cross-env NODE_ENV=development npx sequelize-cli db:migrate",
+    "migrate-down": "cross-env NODE_ENV=development npx sequelize-cli db:migrate:undo"
   },
   "author": "rmscoal",
   "license": "ISC",
