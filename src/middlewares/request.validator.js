@@ -3,6 +3,17 @@ const { body, check } = require('express-validator');
 const ApiError = require('../utils/ApiError');
 
 /**
+ * @helper
+ *
+ * @param {string} value
+ */
+const emptyStringValidator = (value) => {
+  if (value === '') {
+    throw new Error('Either pass in_time with value or not passing in_time at all');
+  }
+};
+
+/**
  * regiesteringParkingValidation is a middleware function
  * used for validating the incoming request body accordingly
  * to its routes. The validation consists of:
@@ -24,7 +35,9 @@ const registerParkingValidation = (method) => {
           .withMessage('Invalid length of vehicle number')
           .matches(/^[A-Z]{1,2}\s[0-9]{1,4}\s[A-Z]{0,3}/)
           .withMessage('Invalid licesence plate'),
-        check('in_time').optional().toDate(),
+        check('in_time').isISO8601().withMessage('ISO8601 format is required').custom((value) => emptyStringValidator(value))
+          .optional()
+          .toDate(),
       ];
     }
   }
