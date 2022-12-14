@@ -1,13 +1,15 @@
 const httpStatus = require('http-status');
-const { body } = require('express-validator');
+const { body, check } = require('express-validator');
 const ApiError = require('../utils/ApiError');
 
 /**
  * regiesteringParkingValidation is a middleware function
  * used for validating the incoming request body accordingly
- * to its routes. Firstly, it is done by checking whether the
- * incoming body request is an application/json format. Next
- * it validates the body request.
+ * to its routes. The validation consists of:
+ * @property {string} vech_type required and in ['mobil', 'motor]
+ * @property {string} vech_num required and matches indo license plate
+ * @property {date} in_time optional and is a date
+ *
  * @param {string} method type of methods to validate
  * @returns []validations
  */
@@ -17,7 +19,12 @@ const registerParkingValidation = (method) => {
   switch (method) {
     case 'registeringParking': {
       return [
-        body('type').exists().isIn(['motor', 'mobil']).withMessage('Invalid vehicle type'),
+        body('vech_type').exists().isIn(['motor', 'mobil']).withMessage('Invalid vehicle type'),
+        body('vech_num').exists().withMessage('Vehicle number is required').isLength({ min: 4, max: 11 })
+          .withMessage('Invalid length of vehicle number')
+          .matches(/^[A-Z]{1,2}\s[0-9]{1,4}\s[A-Z]{0,3}/)
+          .withMessage('Invalid licesence plate'),
+        check('in_time').optional().toDate(),
       ];
     }
   }
