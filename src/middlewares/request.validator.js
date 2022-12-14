@@ -87,14 +87,20 @@ const parkingValidation = (method) => {
   switch (method) {
     case 'registeringParking': {
       return [
-        body('vech_type').exists().isIn(['motor', 'mobil']).withMessage('Invalid vehicle type'),
-        body('vech_num').exists().withMessage('Vehicle number is required').isLength({ min: 4, max: 11 })
+        body('vech_type').exists().bail().isIn(['motor', 'mobil'])
+          .withMessage('Invalid vehicle type'),
+        body('vech_num').exists().withMessage('Vehicle number is required').bail()
+          .isLength({ min: 4, max: 11 })
           .withMessage('Invalid length of vehicle number')
+          .bail()
           .matches(/^[A-Z]{1,2}\s[0-9]{1,4}\s[A-Z]{0,3}/)
           .withMessage('Invalid licesence plate')
+          .bail()
           .custom((value) => validateVechNumUnregistered(value)),
         check('in_time').optional().isISO8601().withMessage('ISO8601 format is required')
+          .bail()
           .custom((value) => emptyStringValidator(value))
+          .bail()
           .toDate(),
       ];
     }
@@ -128,15 +134,6 @@ const analyticsValidation = (method) => {
   switch (method) {
     case 'registeringParking': {
       return [
-        body('vech_type').exists().isIn(['motor', 'mobil']).withMessage('Invalid vehicle type'),
-        body('vech_num').exists().withMessage('Vehicle number is required').isLength({ min: 4, max: 11 })
-          .withMessage('Invalid length of vehicle number')
-          .matches(/^[A-Z]{1,2}\s[0-9]{1,4}\s[A-Z]{0,3}/)
-          .withMessage('Invalid licesence plate')
-          .custom((value) => validateVechNumUnregistered(value)),
-        check('in_time').optional().isISO8601().withMessage('ISO8601 format is required')
-          .custom((value) => emptyStringValidator(value))
-          .toDate(),
       ];
     }
   }
