@@ -8,6 +8,7 @@ const envVarsSchema = Joi.object()
   .keys({
     NODE_ENV: Joi.string().valid('production', 'development', 'test').required(),
     PORT: Joi.string().default(3000),
+    TIMEZONE: Joi.string().required().default('Asia/Jakarta'),
     PG_URL: Joi.string().required(),
   })
   .unknown();
@@ -21,5 +22,6 @@ if (error) {
 module.exports = {
   env: envVars.NODE_ENV,
   port: envVars.PORT,
+  timeZone: envVars.TIMEZONE,
   pg_url: envVars.PG_ULR,
 };
