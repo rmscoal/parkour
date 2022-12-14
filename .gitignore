@@ -1,0 +1,7 @@
+# Ignoring modules and lock
+node_modules/*
+yarn.lock
+yarn-error.log
+
+# Ignoring env
+.env
