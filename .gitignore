@@ -1,5 +1,5 @@
 # Ignoring modules and lock
-node_modules/*
+node_modules
 yarn.lock
 yarn-error.log
 
