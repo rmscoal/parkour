@@ -52,7 +52,7 @@ const validateVechNumUnregistered = async (value) => {
 const validateVechNumIsRegistered = async (value) => {
   const checkParking = await parkingUseCase.findVehicleInParking(value);
   if (checkParking == null) {
-    throw new Error('Vehicle registered and has not exit');
+    throw new Error('Vehicle unregistered in parking');
   }
 
   return true;
