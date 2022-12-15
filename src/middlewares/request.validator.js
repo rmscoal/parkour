@@ -1,5 +1,5 @@
 const { body, check } = require('express-validator');
-const { parking } = require('../db/models');
+const { parkingUseCase } = require('../usecases');
 
 /**
  * @helper
@@ -30,13 +30,7 @@ const emptyStringValidator = (value) => {
  * @returns {boolean} true
  */
 const validateVechNumUnregistered = async (value) => {
-  const checkParking = await parking.findOne({
-    where: {
-      vech_num: value,
-      out_time: null,
-    },
-  });
-
+  const checkParking = await parkingUseCase.findVehicleInParking(value);
   if (checkParking == null) {
     return true;
   }
@@ -56,13 +50,7 @@ const validateVechNumUnregistered = async (value) => {
  * @returns {boolean} true
  */
 const validateVechNumIsRegistered = async (value) => {
-  const checkParking = await parking.findOne({
-    where: {
-      vech_num: value,
-      out_time: null,
-    },
-  });
-
+  const checkParking = await parkingUseCase.findVehicleInParking(value);
   if (checkParking == null) {
     throw new Error('Vehicle registered and has not exit');
   }
