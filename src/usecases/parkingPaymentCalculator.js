@@ -21,7 +21,14 @@ const { DateTime, Interval } = require('luxon');
  */
 const calibrateTime = async (timeObject) => {
   if (timeObject.minutes >= 1) {
-    timeObject.hours += 1;
+    if (timeObject.minutes >= 15 && timeObject.hours === 0) {
+      timeObject.hours += 1;
+      return timeObject;
+    }
+
+    if (timeObject.hours >= 1) {
+      timeObject.hours += 1;
+    }
   }
 
   return timeObject;

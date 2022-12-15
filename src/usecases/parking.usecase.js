@@ -3,7 +3,7 @@ const httpStatus = require('http-status');
 const config = require('../config/config');
 const { Parking } = require('../db/models');
 const ApiError = require('../utils/ApiError');
-const parkingPaymentCalculator = require('../utils/parkingPaymentCalculator');
+const parkingPaymentCalculator = require('./parkingPaymentCalculator');
 
 /**
  * Finds the vehicle that is still parking
