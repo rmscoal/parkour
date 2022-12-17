@@ -1,6 +1,7 @@
 const express = require('express');
 const healthCheckRoute = require('./healthCheck.route');
 const parkingRoute = require('./parking.route');
+const analyticRoute = require('./analytic.route');
 
 const router = express.Router();
 
@@ -12,6 +13,10 @@ const defaultRoutes = [
   {
     path: '/parking',
     route: parkingRoute,
+  },
+  {
+    path: '/analytic',
+    route: analyticRoute,
   },
 ];
 

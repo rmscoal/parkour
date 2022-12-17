@@ -1,4 +1,4 @@
-const { body, check } = require('express-validator');
+const { body, check, query } = require('express-validator');
 const { parkingUseCase } = require('../usecases');
 
 /**
@@ -106,27 +106,16 @@ const parkingValidation = (method) => {
 };
 
 /**
- * regiesteringParkingValidation is a middleware function
- * used for validating the incoming request body accordingly
+ * analyticsValidation is a middleware function
+ * used for validating the incoming request query param
  * to its routes. The validation consists of:
- * @property {string} vech_type required and in ['mobil', 'motor]
- * @property {string} vech_num required and matches indo license plate
- * @property {date} in_time optional and is a date
- *
- * @param {string} method type of methods to validate
- * @returns []validations
+ * @property {Date} start_time of a parking in_time
+ * @returns []Validations
  */
 // eslint-disable-next-line consistent-return
-const analyticsValidation = (method) => {
-  // eslint-disable-next-line default-case
-  switch (method) {
-    case 'registeringParking': {
-      return [
-      ];
-    }
-  }
-};
-
+const analyticsValidation = () => [
+  query('start_time').optional().isISO8601().withMessage('ISO8601 format is required'),
+];
 module.exports = {
   parkingValidation,
   analyticsValidation,
