@@ -1,10 +1,15 @@
 // const httpStatus = require('http-status');
 const validateRequest = require('../utils/validateRequest');
 const catchAsync = require('../utils/catchAsync');
+const { analyticsUseCase } = require('../usecases');
 
-const getAnalytics = catchAsync(async (req, res) => {
+const getAnalyticsParkingByDate = catchAsync(async (req, res) => {
   await validateRequest(req);
-  res.status(200).send(req.query.start_time);
+  const data = await analyticsUseCase.getParkingsByDate(req.query.in_time);
+  res.status(200).json({
+    status: 'Success retrieved data',
+    data,
+  });
 });
 
-module.exports = { getAnalytics };
+module.exports = { getAnalyticsParkingByDate };

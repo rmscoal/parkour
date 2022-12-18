@@ -64,7 +64,7 @@ const validateVechNumIsRegistered = async (value) => {
  * to its routes. The validation consists of:
  * @property {string} vech_type required and in ['mobil', 'motor]
  * @property {string} vech_num required and matches indo license plate
- * @property {date} in_time optional and is a date
+ * @property {DateTime} in_time optional and is a date
  *
  * @param {string} method type of methods to validate
  * @returns []validations
@@ -109,12 +109,12 @@ const parkingValidation = (method) => {
  * analyticsValidation is a middleware function
  * used for validating the incoming request query param
  * to its routes. The validation consists of:
- * @property {Date} start_time of a parking in_time
+ * @property {Date} in_time of a parking in_time
  * @returns []Validations
  */
 // eslint-disable-next-line consistent-return
 const analyticsValidation = () => [
-  query('start_time').optional().isISO8601().withMessage('ISO8601 format is required'),
+  query('in_time').exists().isISO8601().withMessage('ISO8601 format is required'),
 ];
 module.exports = {
   parkingValidation,

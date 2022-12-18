@@ -6,6 +6,6 @@ const router = express.Router();
 
 router
   .route('')
-  .get(requestValidation.analyticsValidation(), analyticController.getAnalytics);
+  .get(requestValidation.analyticsValidation(), analyticController.getAnalyticsParkingByDate);
 
 module.exports = router;
