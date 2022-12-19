@@ -5,7 +5,7 @@ const analyticController = require('../../controllers/analytic.controller');
 const router = express.Router();
 
 router
-  .route('')
+  .route('/all')
   .get(requestValidation.analyticsValidation(), analyticController.getAnalyticsParkingByDate);
 
 module.exports = router;
