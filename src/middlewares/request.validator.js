@@ -115,6 +115,8 @@ const parkingValidation = (method) => {
 // eslint-disable-next-line consistent-return
 const analyticsValidation = () => [
   query('in_time').exists().isISO8601().withMessage('ISO8601 format is required'),
+  query('out_time').optional().isISO8601().withMessage('ISO8601 format is required'),
+  query('vech_type').optional().isIn(['mobil', 'motor', '' || null]).withMessage('Invalid vehicle type'),
 ];
 module.exports = {
   parkingValidation,
