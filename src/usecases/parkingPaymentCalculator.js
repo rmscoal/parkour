@@ -43,12 +43,16 @@ const calibrateTime = async (timeObject) => {
  * If the vehicle stays for a day or more, the price per day for vehicle
  * of type 'mobil' is 80000 and of type 'motor' is 40000. Price per day
  * is not rounded up by hour.
- * @param {Date} inTime the time the vechicle enters the parking lot
- * @param {Date} outTime the time the vehicle exits the parking lot
- * @param {String} vechType the type of the vehicle
- * @returns {integer}
+ * @param {Object<DateTime>} inTime the time the vechicle enters the parking lot
+ * @param {Object<DateTime>} outTime the time the vehicle exits the parking lot
+ * @param {Objectt<String>} vechType the type of the vehicle
+ * @returns {Integer}
  */
-const parkingPaymentCalculator = async (inTime, outTime, vechType) => {
+const parkingPaymentCalculator = async ({
+  inTime,
+  outTime,
+  vechType,
+}) => {
   const dateIn = DateTime.fromISO(inTime.toISOString());
   const dateOut = DateTime.fromISO(outTime.toISOString());
 
