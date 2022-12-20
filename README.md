@@ -5,7 +5,7 @@ An application for parking meter made with Express.js
 Status in Development
 
 TODOS:
-- Finish analytics feature.
+- Finish analytics feature (done).
 - Add pagination.
 - Refactor validation middleware
 
