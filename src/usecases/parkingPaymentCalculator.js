@@ -2,7 +2,7 @@
 const { DateTime, Interval } = require('luxon');
 
 /**
- * @helper
+ * @private
  * This function calibrate the time for the time object passed.
  * It identifies whether the minute is greater or equal to 1. If
  * so, it adds the number of hours by one (rounding up 1 minute

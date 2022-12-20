@@ -6,6 +6,14 @@ const ApiError = require('../utils/ApiError');
 const parkingPaymentCalculator = require('./parkingPaymentCalculator');
 
 /**
+ * @typedef {Object} ParkingData
+ * @property {Date} in_time the time vehicle starts parking
+ * @property {Date} out_time the time vehicle exits parking
+ * @property {String} vech_type the vehicle type
+ * @property {Integer} vech_num vehicle license plate
+ */
+
+/**
  * Finds the vehicle that is still parking
  * @param {String} vechNumber
  * @returns {Promise<Parking>}
@@ -19,7 +27,7 @@ const findVehicleInParking = async (vechNumber) => Parking.findOne({
 
 /**
  * Create a new parking
- * @param {Object} parkingData
+ * @param {ParkingData} parkingData
  * @returns {Promise<Parking>}
  */
 const newParking = async (parkingData) => {
@@ -48,7 +56,7 @@ const newParking = async (parkingData) => {
 
 /**
  * Unregister existing parking
- * @param {Object} parkingData
+ * @param {ParkingData} parkingData
  * @returns {Promise<Parking>}
  */
 const unregisterParking = async (parkingData) => {

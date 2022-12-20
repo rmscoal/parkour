@@ -2,7 +2,7 @@ const { body, check, query } = require('express-validator');
 const { parkingUseCase } = require('../usecases');
 
 /**
- * @helper
+ * @private
  * emptyStringValidator validates whether the passed in data
  * is an empty string and throws new Error if it does not
  * satisfy. On the other hand, it retuns a true boolean.
@@ -19,7 +19,7 @@ const emptyStringValidator = (value) => {
 };
 
 /**
- * @helper
+ * @private
  * validateVechNumUnregistered validates whether the passed in data
  * of a vehicle license plate has been registered and still parking.
  * If there exist a vehicle with the same license plate with the value
@@ -39,7 +39,7 @@ const validateVechNumUnregistered = async (value) => {
 };
 
 /**
- * @helper
+ * @private
  * validateVechNumIsRregistered validates whether the passed in data
  * of a vehicle license plate has been registered and still parking.
  * If there exist a vehicle with the same license plate with the value
