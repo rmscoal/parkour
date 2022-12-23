@@ -11,6 +11,8 @@ const getURL = require('../utils/getURL');
  * Turn integer to string rupiah format
  * @param {Integer} value
  * @returns {String}
+ * @example
+ * 1000 -> "Rp. 1000"
  */
 const toRP = (value) => ''.concat('Rp. ', value.toFixed(2));
 
@@ -19,6 +21,11 @@ const toRP = (value) => ''.concat('Rp. ', value.toFixed(2));
  * Turn PostgresInterval to string format
  * @param {Object} obj
  * @returns {String}
+ * @example
+ * {
+ *  hours: 9,
+ *  minutes: 2,
+ * } -> "9 hours 2 minutes"
  */
 const toTimeReadableFormat = (obj) => {
   const noDisplayKey = 'milliseconds';
@@ -92,6 +99,16 @@ const getAnalyticsParkingByDate = catchAsync(async (req, res) => {
   });
 });
 
+/**
+ * @public
+ * getAnalyticsParkingStatsByDate is a controller used to get the statistics
+ * of the vehicles parked in the parking lot. It gathers statistical data such
+ * as the average length of time vehicles are parked, the avg price paid for
+ * parking, etc.
+ * @param {Request} req
+ * @param {Response} res
+ * @returns {Response}
+ */
 const getAnalyticsParkingStatsByDate = catchAsync(async (req, res) => {
   await validateRequest(req);
   const { in_time: startDate } = req.query;
