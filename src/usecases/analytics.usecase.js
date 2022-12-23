@@ -1,6 +1,8 @@
 /* eslint-disable no-param-reassign */
 const { Op, QueryTypes } = require('sequelize');
 const { Parking, sequelize } = require('../db/models');
+const getPagination = require('../utils/pagination/getPagination');
+const pagingResponse = require('../utils/pagination/pagingResponse');
 
 /**
  * @typedef {Object} Props
@@ -9,6 +11,14 @@ const { Parking, sequelize } = require('../db/models');
  * @property {String} vechType the vehicle type
  * @property {Integer} totalY the min value to search total attribute
  * @property {Integer} totalX the max value to search total attribute
+ * @property {Integer} page the number of requested page to display
+ * @property {Integer} size the number of items per page to display
+ */
+
+/**
+ * @typedef {Object} ParkingUseCaseObject
+ * @property {Parking} data is the query objects
+ * @property {pagingResponse} meta is the pagination object
  */
 
 /**
@@ -16,7 +26,7 @@ const { Parking, sequelize } = require('../db/models');
  * given type with an optional of the vehicles type and the total price of the
  * data where x <= total <= y.
  * @param {Props} props
- * @returns {Promise<Parking>}
+ * @returns {UseCaseObject}
  */
 const getParkingsByDate = async ({
   startDate,
@@ -24,24 +34,37 @@ const getParkingsByDate = async ({
   vechType,
   totalX = 0,
   totalY = Infinity,
-}) => Parking.findAll({
-  where: {
-    in_time: {
-      [Op.and]: {
-        [Op.between]: [new Date(startDate), new Date(endDate)],
+  size,
+  page,
+  url,
+}) => {
+  const { limit, offset } = getPagination(page, size);
+
+  const queryData = await Parking.findAndCountAll({
+    limit,
+    offset,
+    where: {
+      in_time: {
+        [Op.and]: {
+          [Op.between]: [new Date(startDate), new Date(endDate)],
+        },
       },
-    },
-    out_time: {
-      [Op.not]: null,
-    },
-    [Op.and]: [vechType && { vech_type: vechType }],
-    [Op.and]: [(totalX || totalY) && {
-      total: {
-        [Op.between]: [totalX, totalY],
+      out_time: {
+        [Op.not]: null,
       },
-    }],
-  },
-});
+      [Op.and]: [vechType && { vech_type: vechType }],
+      [Op.and]: [(totalX || totalY) && {
+        total: {
+          [Op.between]: [totalX, totalY],
+        },
+      }],
+    },
+  });
+
+  const meta = pagingResponse(queryData, page, limit, url);
+
+  return { data: queryData.rows, meta };
+};
 
 /**
  * getParkingStatsByDate collects the statistical information of the data

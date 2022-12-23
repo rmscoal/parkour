@@ -131,6 +131,12 @@ const analyticsValidation = () => [
     .withMessage('total_y\'s value must be greater than total_x\'s value')
     .bail()
     .toInt(),
+  query('page').optional().isInt({ min: 1 }).withMessage('page must be integer gte 1')
+    .bail()
+    .toInt(),
+  query('size').optional().isInt({ min: 3, max: 25 }).withMessage('size must be integer gte 3')
+    .bail()
+    .toInt(),
 ];
 module.exports = {
   parkingValidation,

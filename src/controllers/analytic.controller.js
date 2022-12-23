@@ -4,6 +4,7 @@ const validateRequest = require('../utils/validateRequest');
 const catchAsync = require('../utils/catchAsync');
 const { analyticsUseCase } = require('../usecases');
 const config = require('../config/config');
+const getURL = require('../utils/getURL');
 
 /**
  * @private
@@ -53,7 +54,12 @@ const toTimeReadableFormat = (obj) => {
 const getAnalyticsParkingByDate = catchAsync(async (req, res) => {
   await validateRequest(req);
 
-  const { in_time: startDate, vech_type: vechType } = req.query;
+  const {
+    in_time: startDate, vech_type: vechType, page, size,
+  } = req.query;
+
+  const url = getURL(req);
+
   let endDate;
   let totalY;
   let totalX;
@@ -68,17 +74,21 @@ const getAnalyticsParkingByDate = catchAsync(async (req, res) => {
     totalY = undefined;
   }
 
-  const data = await analyticsUseCase.getParkingsByDate({
+  const { data, meta } = await analyticsUseCase.getParkingsByDate({
     startDate,
     endDate,
     vechType,
     totalX,
     totalY,
+    page,
+    size,
+    url,
   });
 
   res.status(httpStatus.OK).json({
     status: 'Success retrieved data',
     data,
+    meta,
   });
 });
 
@@ -109,7 +119,6 @@ const getAnalyticsParkingStatsByDate = catchAsync(async (req, res) => {
       longest_parking_time: toTimeReadableFormat(data.longest_time),
       shortest_parking_time: toTimeReadableFormat(data.shortest_time),
     },
-    // data,
     startDate: startDate.toLocaleString('sv', { timeZone: config.timeZone }),
     endDate: endDate.toLocaleString('sv', { timeZone: config.timeZone }).split(' ')[0],
   });
