@@ -19,7 +19,7 @@ const toRP = (value) => ''.concat('Rp. ', value.toFixed(2));
  * @param {Object} obj
  * @returns {String}
  */
-const toTimeFormat = (obj) => {
+const toTimeReadableFormat = (obj) => {
   const noDisplayKey = 'milliseconds';
   let str = '';
   Object.keys(obj).forEach((value, index) => {
@@ -102,12 +102,12 @@ const getAnalyticsParkingStatsByDate = catchAsync(async (req, res) => {
     status: 'Success retrieved data',
     data: {
       avg_total: toRP(data.avg_total),
-      avg_time: toTimeFormat(data.avg_time),
+      avg_time: toTimeReadableFormat(data.avg_time),
       num_of_distinct_cars: data.num_of_distinct_cars,
       highest_price: toRP(data.highest_price),
       lowest_price: toRP(data.lowest_price),
-      longest_parking_time: toTimeFormat(data.longest_time),
-      shortest_parking_time: toTimeFormat(data.shortest_time),
+      longest_parking_time: toTimeReadableFormat(data.longest_time),
+      shortest_parking_time: toTimeReadableFormat(data.shortest_time),
     },
     // data,
     startDate: startDate.toLocaleString('sv', { timeZone: config.timeZone }),
