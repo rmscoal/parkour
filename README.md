@@ -6,7 +6,7 @@ Status in Development
 
 TODOS:
 - Finish analytics feature (done).
-- Add pagination.
+- Add pagination (done).
 - Refactor validation middleware
 
 IDEAS:
