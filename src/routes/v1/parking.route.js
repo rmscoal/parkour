@@ -1,15 +1,21 @@
 const express = require('express');
 const parkingController = require('../../controllers/parking.controller');
-const requestValidation = require('../../middlewares/request.validator');
+const { parkingValidator } = require('../../middlewares/validators');
 
 const router = express.Router();
 
 router
   .route('/in')
-  .post(requestValidation.parkingValidation('registeringParking'), parkingController.registerParking);
+  .post(
+    parkingValidator.registerParking(),
+    parkingController.registerParking,
+  );
 
 router
   .route('/out')
-  .post(requestValidation.parkingValidation('unregisterParking'), parkingController.unregisterParking);
+  .post(
+    parkingValidator.unregisterParking(),
+    parkingController.unregisterParking,
+  );
 
 module.exports = router;

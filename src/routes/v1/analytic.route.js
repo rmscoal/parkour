@@ -1,15 +1,21 @@
 const express = require('express');
-const requestValidation = require('../../middlewares/request.validator');
+const requestValidator = require('../../middlewares/validators');
 const analyticController = require('../../controllers/analytic.controller');
 
 const router = express.Router();
 
 router
   .route('/all')
-  .get(requestValidation.analyticsValidation(), analyticController.getAnalyticsParkingByDate);
+  .get(
+    requestValidator.analyticsValidator(),
+    analyticController.getAnalyticsParkingByDate,
+  );
 
 router
   .route('/stat')
-  .get(requestValidation.analyticsValidation(), analyticController.getAnalyticsParkingStatsByDate);
+  .get(
+    requestValidator.analyticsValidator(),
+    analyticController.getAnalyticsParkingStatsByDate,
+  );
 
 module.exports = router;
