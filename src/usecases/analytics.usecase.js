@@ -84,7 +84,7 @@ const getParkingsByDate = async ({
  */
 const getParkingStatsByDate = async (props) => sequelize.query(`
   SELECT AVG(p.total) AS avg_total, AVG(p.out_time - p.in_time) AS avg_time,
-  CAST(COUNT(DISTINCT p.vech_num) AS int8) AS num_of_distinct_cars, MAX(p.total) AS highest_price,
+  COUNT(DISTINCT p.vech_num)::int AS num_of_distinct_cars, MAX(p.total) AS highest_price,
   MIN(p.total) AS lowest_price, MAX(p.out_time - p.in_time) AS longest_time,
   MIN(p.out_time - p.in_time) AS shortest_time
   FROM parkings AS p

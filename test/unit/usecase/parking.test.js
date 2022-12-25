@@ -1,6 +1,5 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-undef */
-// const assert = require('assert');
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 
