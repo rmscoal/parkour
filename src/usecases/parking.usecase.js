@@ -34,6 +34,12 @@ const newParking = async (parkingData) => {
   const t = await sequelize.transaction();
 
   try {
+    const parked = await findVehicleInParking(parkingData.vech_num);
+
+    if (parked) {
+      throw new Error('Vehicle parked');
+    }
+
     if (!parkingData.in_time) {
       parkingData.in_time = new Date(new Date().toLocaleString('sv', { timeZone: config.timeZone }));
     } else {
