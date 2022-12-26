@@ -130,7 +130,7 @@ const getAnalyticsParkingStatsByDate = catchAsync(async (req, res) => {
     data: {
       avg_total: toRP(data.avg_total),
       avg_time: toTimeReadableFormat(data.avg_time),
-      num_of_distinct_cars: data.num_of_distinct_cars,
+      num_of_distinct_vehicles: data.num_of_distinct_vehicles,
       highest_price: toRP(data.highest_price),
       lowest_price: toRP(data.lowest_price),
       longest_parking_time: toTimeReadableFormat(data.longest_time),
