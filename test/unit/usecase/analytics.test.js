@@ -19,7 +19,7 @@ describe('Analytics Usecase', () => {
         data = data.dataValues;
         expect(data).to.have.property('avg_time').to.be.an('object');
         expect(data).to.have.property('avg_total').to.be.a('number');
-        expect(data).to.have.property('num_of_distinct_cars').to.be.a('number');
+        expect(data).to.have.property('num_of_distinct_vehicles').to.be.a('number');
         expect(data).to.have.property('highest_price').to.be.a('number');
         expect(data).to.have.property('lowest_price').to.be.a('number');
         expect(data).to.have.property('longest_time').to.be.an('object');
