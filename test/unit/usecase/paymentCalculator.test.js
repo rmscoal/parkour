@@ -88,4 +88,32 @@ describe('Parking Payment Calculator', () => {
       expect(total).to.equal(10000);
     });
   });
+
+  describe('test payment calculator for motor on 1 hour, 1 minute parking time', () => {
+    it('should return a value of 4000', async () => {
+      const objTest = {
+        inTime: new Date('2022-12-12 07:00:00'),
+        outTime: new Date('2022-12-12 08:01:00'),
+        vechType: 'motor',
+      };
+
+      const total = await parkingPaymentCalculator(objTest);
+
+      expect(total).to.equal(4000);
+    });
+  });
+
+  describe('test payment calculator for motor on 1 day, 1 hour, 1 minute parking time', () => {
+    it('should return a value of 44000', async () => {
+      const objTest = {
+        inTime: new Date('2022-12-12 07:00:00'),
+        outTime: new Date('2022-12-13 08:01:00'),
+        vechType: 'motor',
+      };
+
+      const total = await parkingPaymentCalculator(objTest);
+
+      expect(total).to.equal(44000);
+    });
+  });
 });
