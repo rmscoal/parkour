@@ -69,9 +69,14 @@ const parkingPaymentCalculator = async ({
       total += intervalObject.hours * 5000;
       break;
     }
-    default: {
+    case 'motor': {
       total += intervalObject.days * 40000;
       total += intervalObject.hours * 2000;
+      break;
+    }
+
+    default: {
+      total = undefined;
     }
   }
 
