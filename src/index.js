@@ -2,14 +2,9 @@ const app = require('./app');
 const config = require('./config/config');
 const logger = require('./config/logger');
 const { sequelize } = require('./db/models');
+const { parkingScheduler } = require('./lib/scheduler');
 
 let server;
-// mongoose.connect(config.mongoose.url, config.mongoose.options).then(() => {
-//   logger.info('Connected to MongoDB');
-//   server = app.listen(config.port, () => {
-//     logger.info(`Listening to port ${config.port}`);
-//   });
-// });
 
 const connectDB = async () => {
   logger.info('Checking database connection');
@@ -24,6 +19,9 @@ const connectDB = async () => {
 
 (async () => {
   await connectDB();
+
+  // Start schedulers here!
+  parkingScheduler.start();
 
   server = app.listen(config.port, () => {
     logger.info(`Listening to port ${config.port}`);
