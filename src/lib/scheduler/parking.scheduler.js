@@ -4,6 +4,7 @@
 const cron = require('node-cron');
 const logger = require('../../config/logger');
 const { parkingUseCase } = require('../../usecases');
+const { mailerNotifier } = require('../mailer');
 
 /**
  * @private
@@ -43,6 +44,9 @@ const checkAllParkingMoreThanTwoDays = async () => {
     License plate(s):
     ${queryData.reduce(reduceLicensePlates(queryData), '')}
     `);
+
+    // Sends email
+    mailerNotifier();
   } else {
     logger.info(`\n----------- CRON JOB -----------\n
     Job ran successfully.
