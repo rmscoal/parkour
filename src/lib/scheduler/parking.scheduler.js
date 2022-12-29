@@ -51,6 +51,14 @@ const checkAllParkingMoreThanTwoDays = async () => {
   }
 };
 
+/**
+ * Scheduler variable that is exported.
+ *
+ * To run the scheduler, simply do:
+ * import { variableName } from ./index;
+ *
+ * variableName.start();
+ */
 const parkingSchedulerTask = cron.schedule('*/30 * * * * *', () => {
   logger.info('Scheduler worked');
   checkAllParkingMoreThanTwoDays();
