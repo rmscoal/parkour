@@ -59,7 +59,7 @@ const checkAllParkingMoreThanTwoDays = async () => {
  *
  * variableName.start();
  */
-const parkingSchedulerTask = cron.schedule('*/30 * * * * *', () => {
+const parkingSchedulerTask = cron.schedule('0 0 * * *', () => {
   checkAllParkingMoreThanTwoDays();
 }, {
   scheduled: false,
