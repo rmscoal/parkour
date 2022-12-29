@@ -1,1 +1,1 @@
-module.exports.parkingScheduler = require('./cron');
+module.exports.parkingScheduler = require('./parking.scheduler');
