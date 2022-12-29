@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 const httpStatus = require('http-status');
+const { QueryTypes } = require('sequelize');
 const config = require('../config/config');
 const { Parking, sequelize } = require('../db/models');
 const ApiError = require('../utils/ApiError');
@@ -14,11 +15,13 @@ const parkingPaymentCalculator = require('./parkingPaymentCalculator');
  */
 
 /**
+ * @public
  * Finds the vehicle that is still parking
  * @param {String} vechNumber
  * @returns {Promise<Parking>}
  */
 const findVehicleInParking = async (vechNumber) => Parking.findOne({
+  attributes: ['vech_type', 'vech_num', 'in_time', 'out_time'],
   where: {
     vech_num: vechNumber,
     out_time: null,
@@ -26,6 +29,21 @@ const findVehicleInParking = async (vechNumber) => Parking.findOne({
 });
 
 /**
+ * @public
+ * Finds all vehicle that has been parking for more than 2 days
+ * using raw query.
+ * @returns {Promise<Parking[]>}
+ */
+const findAllParkingMoreThanTwoDays = async () => sequelize.query(`
+  SELECT p.id, p.vech_num, p.vech_type, p.in_time FROM parkings AS p
+  WHERE p.out_time IS NULL AND EXTRACT(DAY FROM CURRENT_TIMESTAMP - p.in_time) >= 2
+  ORDER BY p.id ASC`, {
+  model: Parking,
+  type: QueryTypes.SELECT,
+});
+
+/**
+ * @public
  * Create a new parking
  * @param {ParkingData} parkingData
  * @returns {Promise<Parking>}
@@ -61,6 +79,7 @@ const newParking = async (parkingData) => {
 };
 
 /**
+ * @public
  * Unregister existing parking
  * @param {ParkingData} parkingData
  * @returns {Promise<Parking>}
@@ -94,6 +113,7 @@ const unregisterParking = async (parkingData) => {
 
 module.exports = {
   findVehicleInParking,
+  findAllParkingMoreThanTwoDays,
   newParking,
   unregisterParking,
 };
