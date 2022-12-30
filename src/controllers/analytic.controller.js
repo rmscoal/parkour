@@ -8,7 +8,7 @@ const getURL = require('../utils/getURL');
 
 /**
  * @private
- * Turn integer to string rupiah format
+ * Turn number to string rupiah format
  * @param {Integer} value
  * @returns {String}
  * @example
@@ -19,8 +19,10 @@ const toRP = (value) => ''.concat('Rp. ', value.toFixed(2));
 /**
  * @private
  * Turn PostgresInterval to string format
- * @param {Object} obj
- * @returns {String}
+ * @param {PostgresInterval} obj - key value pair is a string
+ * integer pair where the keys are time format.
+ * @returns {String} combines object's keys and values as a
+ * string.
  * @example
  * {
  *  hours: 9,
@@ -41,22 +43,18 @@ const toTimeReadableFormat = (obj) => {
   });
 
   return str;
-  // return Object.keys(obj).reduce((str, v) => str.concat(obj[v].toFixed(0), ' ', v, ' '), '');
 };
 
 /**
  * @public
  * getAnalysisParkingByDate is a controller to get the analytics of vehicles'
  * parking session based on its start date of parking until its end with an
- * optional of the vehicles' type.
- * @param {Request} req consisting of:
+ * optional of the vehicles' type. The options are as below:
  * 1. in_time - holds the start of the time vehicles started parking (required)
  * 2. out_time - holds the end of the time vehicles ended parking (optional)
  * 3. vech_type - holds the type of the vehicle it analysizes (optional)
  * 4. total_x - holds the start of the total price to query (optional)
  * 5. total_y - holds the end of the total price to query (optional)
- * @param {Response} res
- * @returns {Response}
  */
 const getAnalyticsParkingByDate = catchAsync(async (req, res) => {
   await validateRequest(req);
@@ -105,12 +103,10 @@ const getAnalyticsParkingByDate = catchAsync(async (req, res) => {
  * of the vehicles parked in the parking lot. It gathers statistical data such
  * as the average length of time vehicles are parked, the avg price paid for
  * parking, etc.
- * @param {Request} req
- * @param {Response} res
- * @returns {Response}
  */
 const getAnalyticsParkingStatsByDate = catchAsync(async (req, res) => {
   await validateRequest(req);
+
   const { in_time: startDate } = req.query;
   let endDate;
   ({ out_time: endDate } = req.query);

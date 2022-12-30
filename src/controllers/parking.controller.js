@@ -4,6 +4,11 @@ const catchAsync = require('../utils/catchAsync');
 const { parkingUseCase } = require('../usecases');
 const config = require('../config/config');
 
+/**
+ * @public
+ * Controller to register vehicles for parking and saves
+ * the time in started parking and the vehicles number.
+ */
 const registerParking = catchAsync(async (req, res) => {
   await validateRequest(req, res);
   const data = await parkingUseCase.newParking(req.body);
@@ -19,6 +24,11 @@ const registerParking = catchAsync(async (req, res) => {
   });
 });
 
+/**
+ * @public
+ * Controller to unregister parked vehicles and calculates
+ * the parking fee to pay.
+ */
 const unregisterParking = catchAsync(async (req, res) => {
   await validateRequest(req, res);
   const data = await parkingUseCase.unregisterParking(req.body);
