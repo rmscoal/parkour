@@ -10,6 +10,14 @@ const envVarsSchema = Joi.object()
     PORT: Joi.string().default(3000),
     TIMEZONE: Joi.string().required().default('Asia/Jakarta'),
     PG_URL: Joi.string().required(),
+
+    // Mailer configs
+    MAILER_SERVICE: Joi.string().required(),
+    MAILER_HOST: Joi.string().optional().default('HOST'),
+    MAILER_PORT: Joi.number().integer().optional().default(1),
+    MAILER_USER: Joi.string().lowercase().email().required(),
+    MAILER_PASS: Joi.string().min(5).required(),
+    MAILER_RECIPIENT: Joi.string().lowercase().email().required(),
   })
   .unknown();
 
@@ -24,4 +32,12 @@ module.exports = {
   port: envVars.PORT,
   timeZone: envVars.TIMEZONE,
   pg_url: envVars.PG_ULR,
+  mailer: {
+    service: envVars.MAILER_SERVICE,
+    host: envVars.MAILER_HOST,
+    port: envVars.MAILER_PORT,
+    user: envVars.MAILER_USER,
+    pass: envVars.MAILER_PASS,
+    recipient: envVars.MAILER_RECIPIENT,
+  },
 };
