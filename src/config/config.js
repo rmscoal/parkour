@@ -17,7 +17,7 @@ const envVarsSchema = Joi.object()
     MAILER_PORT: Joi.number().integer().optional().default(1),
     MAILER_USER: Joi.string().lowercase().email().required(),
     MAILER_PASS: Joi.string().min(5).required(),
-    MAILER_RECIPIENT: Joi.string().lowercase().email().required(),
+    MAILER_RECIPIENT: Joi.string().lowercase().required(),
   })
   .unknown();
 

@@ -4,7 +4,8 @@
 const cron = require('node-cron');
 const logger = require('../../config/logger');
 const { parkingUseCase } = require('../../usecases');
-const { mailerNotifier } = require('../mailer');
+const { Mailer } = require('../mailer');
+const config = require('../../config/config');
 
 /**
  * @private
@@ -43,11 +44,13 @@ const checkAllParkingMoreThanTwoDays = async () => {
     ${queryData.reduce(reduceLicensePlates(queryData), '')}
     `);
 
-    // Sends email
-    mailerNotifier({
+    // Create a new mail service
+    const mailer = new Mailer(config.mailer, {
       count: queryData.length,
       licensePlates: queryData.map((data) => data.vech_num),
-    });
+    }, config.mailer.recipient.split(', '), 'template.v1');
+    // Send the mail
+    mailer.send();
   } else {
     logger.info(`\n----------- CRON JOB -----------\n
     Job ran successfully.

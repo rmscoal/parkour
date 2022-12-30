@@ -1,1 +1,1 @@
-module.exports.mailerNotifier = require('./parking.mailer');
+module.exports.Mailer = require('./parking.mailer');

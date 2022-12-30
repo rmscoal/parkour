@@ -1,74 +1,91 @@
-const mailer = require('nodemailer');
+const nodemailer = require('nodemailer');
 const hbs = require('nodemailer-express-handlebars');
-const config = require('../../config/config');
 const logger = require('../../config/logger');
 
-// TODO: Make class
+/**
+ * @typedef {Object} MailAdminData
+ * @property {Number} count - length of mapped array
+ * @property {Array<String>} licensePlates - array of license plates
+ */
 
 /**
- * @private
- * Sends the email and responsible for giving errors on
- * unsuccessful mailing and info on successful mailing.
- * @param {mailer.Transporter<SMTPTransport.SentMessageInfo>} transporter
- * @param {Object} mailBody
+ * @class
+ * A class for sending mails.
  */
-const send = async (transporter, mailBody) => {
-  transporter.sendMail(mailBody, (err, info) => {
-    if (err) {
-      logger.error(`\n----------- MAILER -----------\n
+class Mailer {
+  /**
+   * Create a mail transport, data to send, template to chose form, and
+   * recipients of the mail.
+   * @param {Object} configs defines the configuration for nodemailer
+   * @param {MailAdminData} data defines the data to be inserted in the mail
+   * @param {Array<String>} recipient defines the reciever of the mail
+   * @param {String} template defines the template of the mail
+   */
+  constructor(configs, data, recipient, template) {
+    /** @private */
+    this.configs = configs;
+    /** @private */
+    this.data = data;
+    /** @private */
+    this.recipients = recipient;
+    /** @private */
+    this.template = template;
+
+    // Define the transporter
+    /** @private */
+    this.transporter = nodemailer.createTransport({
+      service: this.configs.service,
+      auth: {
+        user: this.configs.user,
+        pass: this.configs.pass,
+      },
+    });
+
+    /**
+     * @private
+     * Define the options for handlebars
+    */
+    this.options = {
+      viewEngine: {
+        extName: '.hbs',
+        layoutsDir: 'src/views/mail',
+        defaultLayout: this.template.concat('.hbs'),
+      },
+      viewPath: 'src/views/mail',
+      extName: '.hbs',
+    };
+
+    // Use handlebars in the transporter
+    this.transporter.use('compile', hbs(this.options));
+  }
+
+  /**
+   * @method send
+   * Sends the mail using the class transporter constructor.
+   */
+  send() {
+    this.transporter.sendMail({
+      from: `"Parkour Application 🚗" ${this.configs.user}`,
+      to: this.recipients.join(','),
+      subject: 'Parking Warning To Admin',
+      template: 'template.v1',
+      context: this.data,
+    }, (err, info) => {
+      if (err) {
+        logger.error(`\n----------- MAILER -----------\n
     There occured an error.
 
     Error: ${err.message}\n`);
-    } else {
-      logger.info(`\n----------- MAILER -----------\n
+      } else {
+        logger.info(`\n----------- MAILER -----------\n
     Successfully sent message
 
     Message ID: ${info.messageId}
     Sender: ${info.envelope.from}
     Accepted Recipients: ${info.envelope.to.join(', ')}`);
-    }
-  });
-};
+      }
+    });
+  }
+}
 
-/**
- * @public
- * mailerNotifier created the mailing transporter and the
- * message body. Once created, it calls send() on sending
- * the email. It uses data to display dynamic data on to
- * the email.
- * @param {Object} data
- */
-const mailerNotifier = async (data) => {
-  const transporter = mailer.createTransport({
-    service: config.mailer.service,
-    auth: {
-      user: config.mailer.user, // generated ethereal user
-      pass: config.mailer.pass, // generated ethereal password
-    },
-  });
-
-  // Options for handlebars
-  const options = {
-    viewEngine: {
-      extName: '.hbs',
-      layoutsDir: 'src/views/mail',
-      defaultLayout: 'template.v1.hbs',
-    },
-    viewPath: 'src/views/mail',
-    extName: '.hbs',
-  };
-
-  transporter.use('compile', hbs(options));
-
-  const mailBody = {
-    from: `"Parkour Application 🚗" ${config.mailer.user}`,
-    to: config.mailer.recipient,
-    subject: 'Parking Warning To Admin',
-    template: 'template.v1',
-    context: data,
-  };
-
-  send(transporter, mailBody);
-};
-
-module.exports = mailerNotifier;
+module.exports = Mailer;
