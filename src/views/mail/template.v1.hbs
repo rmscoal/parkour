@@ -1,0 +1,29 @@
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parking Warning</title>
+
+  <style>
+    h1 {
+      font-size: 14;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Parking Warning</h1>
+  <p>There are {{count}} vehicle(s) that has been parking for more than two days. Kindly check these vehicles.</p>
+  <ul class="vech_num_list">
+    {{#each licensePlates}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+</body>
+
+<span>
+  <p>Thank you for working with Parkour</p>
+</span>
+
+</html>
