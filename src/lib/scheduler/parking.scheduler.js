@@ -34,8 +34,6 @@ const checkAllParkingMoreThanTwoDays = async () => {
   // Checks whether there are any data passed.
   // If there are, send to mailer service. Else,
   // do nothing.
-  //
-  // TODO: Send data to mailer service.
   if (queryData?.length) {
     logger.info(`\n----------- CRON JOB -----------\n
     Job ran successfully.
@@ -46,7 +44,10 @@ const checkAllParkingMoreThanTwoDays = async () => {
     `);
 
     // Sends email
-    mailerNotifier();
+    mailerNotifier({
+      count: queryData.length,
+      licensePlates: queryData.map((data) => data.vech_num),
+    });
   } else {
     logger.info(`\n----------- CRON JOB -----------\n
     Job ran successfully.
@@ -56,6 +57,7 @@ const checkAllParkingMoreThanTwoDays = async () => {
 };
 
 /**
+ * @public
  * Scheduler variable that is exported.
  *
  * To run the scheduler, simply do:

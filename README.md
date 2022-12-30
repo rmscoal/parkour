@@ -13,4 +13,4 @@ Status in Development
 
 
 #### IDEAS:
-- [ ] Add a cron job to check vehicles parked that has not exit for more than 2 days and notify through email.
+- [x] Add a cron job to check vehicles parked that has not exit for more than 2 days and notify through email.

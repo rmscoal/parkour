@@ -1,6 +1,9 @@
 const mailer = require('nodemailer');
+const hbs = require('nodemailer-express-handlebars');
 const config = require('../../config/config');
 const logger = require('../../config/logger');
+
+// TODO: Make class
 
 /**
  * @private
@@ -31,10 +34,11 @@ const send = async (transporter, mailBody) => {
  * @public
  * mailerNotifier created the mailing transporter and the
  * message body. Once created, it calls send() on sending
+ * the email. It uses data to display dynamic data on to
  * the email.
- * @param {*} queryData
+ * @param {Object} data
  */
-const mailerNotifier = async () => {
+const mailerNotifier = async (data) => {
   const transporter = mailer.createTransport({
     service: config.mailer.service,
     auth: {
@@ -43,16 +47,25 @@ const mailerNotifier = async () => {
     },
   });
 
+  // Options for handlebars
+  const options = {
+    viewEngine: {
+      extName: '.hbs',
+      layoutsDir: 'src/views/mail',
+      defaultLayout: 'template.v1.hbs',
+    },
+    viewPath: 'src/views/mail',
+    extName: '.hbs',
+  };
+
+  transporter.use('compile', hbs(options));
+
   const mailBody = {
-    from: `"Parkour Application 👻" ${config.mailer.user}`, // sender address
-    to: config.mailer.recipient, // list of receivers
-    subject: '', // Subject line
-    text: 'Hello world?', // plain text body
-    html: `<html>
-    <body>
-     Hello and welcome
-    </body>
-   </html>`, // html body
+    from: `"Parkour Application 🚗" ${config.mailer.user}`,
+    to: config.mailer.recipient,
+    subject: 'Parking Warning To Admin',
+    template: 'template.v1',
+    context: data,
   };
 
   send(transporter, mailBody);
