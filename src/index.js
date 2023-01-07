@@ -2,7 +2,7 @@ const app = require('./app');
 const config = require('./config/config');
 const logger = require('./config/logger');
 const { sequelize } = require('./db/models');
-const { parkingScheduler } = require('./lib/scheduler');
+const { parkingScheduler } = require('./services/scheduler');
 
 let server;
 
