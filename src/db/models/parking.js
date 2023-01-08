@@ -32,6 +32,7 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     tableName: 'parkings',
     modelName: 'Parking',
+    schema: 'public', // custom schema
   });
   return Parking;
 };
