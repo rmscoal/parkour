@@ -8,3 +8,6 @@ yarn-error.log
 
 # Ignoring vscode
 .vscode
+
+# Ignoring seeds
+src/db/seeders/*.js
