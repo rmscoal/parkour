@@ -2,10 +2,11 @@ const express = require('express');
 const healthCheckRoute = require('./healthCheck.route');
 const parkingRoute = require('./parking.route');
 const analyticRoute = require('./analytic.route');
+const areaRoute = require('./area.route');
 
 const router = express.Router();
 
-const defaultRoutes = [
+const v1Routes = [
   {
     path: '/health',
     route: healthCheckRoute,
@@ -18,9 +19,13 @@ const defaultRoutes = [
     path: '/analytic',
     route: analyticRoute,
   },
+  {
+    path: '/get/area',
+    route: areaRoute,
+  },
 ];
 
-defaultRoutes.forEach((route) => {
+v1Routes.forEach((route) => {
   router.use(route.path, route.route);
 });
 

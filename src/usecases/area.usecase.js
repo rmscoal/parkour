@@ -6,11 +6,17 @@ const {
 } = require('../db/models');
 
 /**
+ * Finds all provinces.
+ * @returns {Promise<AreaProvince[]>} an array of province
+ */
+const findAllProvince = async () => AreaProvince.findAll();
+
+/**
  * Find all cities with the associated province_id.
  * @param {integer} id defines the province_id.
  * @returns {Promise<AreaCity[]>} an array of cities.
  */
-const findCityWithProvinceId = async (id) => AreaCity.findAll({
+const findCitiesWithProvinceId = async (id) => AreaCity.findAll({
   where: {
     province_id: id,
   },
@@ -21,7 +27,7 @@ const findCityWithProvinceId = async (id) => AreaCity.findAll({
  * @param {integer} id defines the city_id.
  * @returns {Promise<AreaDistrict[]>} an array of distrcits.
  */
-const findDistrictWithCityId = async (id) => AreaDistrict.findAll({
+const findDistrictsWithCityId = async (id) => AreaDistrict.findAll({
   where: {
     city_id: id,
   },
@@ -32,14 +38,15 @@ const findDistrictWithCityId = async (id) => AreaDistrict.findAll({
  * @param {integer} id defines the district_id.
  * @returns {Promise<AreaVillage[]>} an array of distrcits.
  */
-const findVillageWithDistrictId = async (id) => AreaVillage.findAll({
+const findVillagesWithDistrictId = async (id) => AreaVillage.findAll({
   where: {
     district_id: id,
   },
 });
 
 module.exports = {
-  findCityWithProvinceId,
-  findDistrictWithCityId,
-  findVillageWithDistrictId,
+  findAllProvince,
+  findCitiesWithProvinceId,
+  findDistrictsWithCityId,
+  findVillagesWithDistrictId,
 };
