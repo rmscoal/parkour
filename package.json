@@ -4,7 +4,7 @@
   "description": "A parking meter application built on Express.js",
   "main": "index.js",
   "scripts": {
-    "test-unit": "mocha --file ./test/unit/**/*.js",
+    "test:unit": "mocha --file ./test/unit/**/*.js",
     "dev": "cross-env NODE_ENV=development nodemon src/index.js",
     "migrate": "cross-env NODE_ENV=development npx sequelize-cli db:migrate",
     "migrate-down": "cross-env NODE_ENV=development npx sequelize-cli db:migrate:undo",
