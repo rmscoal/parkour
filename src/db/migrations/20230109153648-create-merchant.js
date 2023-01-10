@@ -60,6 +60,7 @@ async function up({ context: queryInterface }) {
     },
     rate_data: {
       type: Sequelize.JSONB,
+      comment: 'Stores the rate of parking in a json format',
     },
     created_at: {
       allowNull: false,
@@ -73,6 +74,18 @@ async function up({ context: queryInterface }) {
     },
   }, {
     schema: 'parkour',
+    indexes: [
+      {
+        unique: true,
+        fields: ['name'],
+      },
+      // Creates a gin index on data with the jsonb_path_ops operator
+      {
+        fields: ['data'],
+        using: 'gin',
+        operator: 'jsonb_path_ops',
+      },
+    ],
   });
 }
 
