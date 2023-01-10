@@ -8,7 +8,8 @@
     "dev": "cross-env NODE_ENV=development nodemon src/index.js",
     "migrate": "cross-env NODE_ENV=development npx sequelize-cli db:migrate",
     "migrate-down": "cross-env NODE_ENV=development npx sequelize-cli db:migrate:undo",
-    "migrate-create": "cross-env NODE_ENV=development npx sequelize-cli migration:create"
+    "migrate-create": "cross-env NODE_ENV=development npx sequelize-cli migration:create",
+    "lint-and-fix": "eslint . --ext .js --fix"
   },
   "author": "rmscoal",
   "license": "ISC",
