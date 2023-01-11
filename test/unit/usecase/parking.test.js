@@ -9,15 +9,16 @@ const { Parking } = require('../../../src/db/models');
 
 chai.use(chaiAsPromised);
 
-before(() => {
-  Parking.destroy({
-    where: {
-      out_time: null,
-    },
-  });
-});
-
 describe('Parking Usecase', () => {
+  // Clears all parking data with out_time of null
+  before(() => {
+    Parking.destroy({
+      where: {
+        out_time: null,
+      },
+    });
+  });
+
   describe('register new parking', () => {
     it('should successfully save parking', (done) => {
       parkingUseCase.newParking({

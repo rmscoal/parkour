@@ -6,7 +6,6 @@ const {
   Model,
   Deferrable,
 } = require('sequelize');
-const { AreaProvince } = require('.');
 
 module.exports = (sequelize, DataTypes) => {
   class Merchant extends Model {
@@ -37,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       references: {
         // This is a reference to another model
-        model: AreaProvince,
+        model: 'area_provinces',
 
         // This is the column name of the referenced model
         key: 'id',

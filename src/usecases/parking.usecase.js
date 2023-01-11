@@ -21,7 +21,12 @@ const parkingPaymentCalculator = require('./parkingPaymentCalculator');
  * @returns {Promise<Parking>}
  */
 const findVehicleInParking = async (vechNumber) => Parking.findOne({
-  attributes: ['vech_type', 'vech_num', 'in_time', 'out_time'],
+  // ID attribute is a must. Without, it will throw an
+  // error of:
+  //
+  // You attempted to save an instance with no primary key,
+  // this is not allowed since it would result in a global update
+  attributes: ['id', 'vech_type', 'vech_num', 'in_time', 'out_time'],
   where: {
     vech_num: vechNumber,
     out_time: null,

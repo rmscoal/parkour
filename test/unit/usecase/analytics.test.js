@@ -4,12 +4,52 @@ const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 
 const { expect } = chai;
-const { analyticsUseCase } = require('../../../src/usecases');
+const { analyticsUseCase, parkingUseCase } = require('../../../src/usecases');
+const { Parking } = require('../../../src/db/models');
 const config = require('../../../src/config/config');
+const logger = require('../../../src/config/logger');
 
 chai.use(chaiAsPromised);
 
 describe('Analytics Usecase', () => {
+  // Clears parked vehicles then add dummy
+  // data to populate new database.
+  before(async () => {
+    // Clears parked data.
+    await Parking.destroy({
+      where: {
+        out_time: null,
+      },
+    });
+
+    // These variables will be used as the values in
+    // in_time and out_time attributes.
+    const today = new Date(new Date().toLocaleString('sv', { timeZone: config.timeZone }));
+    const twoDaysBeforeToday = new Date(new Date(today - 1000 * 60 * 60 * 24 * 2)
+      .toLocaleString('sv', { timeZone: config.timeZone }));
+
+    try {
+      // Register new dummy parking data
+      await parkingUseCase.newParking({
+        vech_type: 'mobil',
+        vech_num: 'DUMMYXXX',
+        in_time: twoDaysBeforeToday,
+      });
+
+      // Unregister previous dummy data
+      await parkingUseCase.unregisterParking({
+        vech_type: 'mobil',
+        vech_num: 'DUMMYXXX',
+        in_time: twoDaysBeforeToday,
+        out_time: today,
+      });
+    } catch (err) {
+      logger.error(`Populating data failed: ${err}`);
+      process.exit(1);
+    }
+  });
+
+  // Starts test
   describe('stat data', () => {
     it('should successfully query stat data', (done) => {
       analyticsUseCase.getParkingStatsByDate({
