@@ -18,15 +18,19 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       this.belongsTo(models.AreaProvince, {
         foreignKey: 'province_id',
+        as: 'province',
       });
       this.belongsTo(models.AreaCity, {
         foreignKey: 'city_id',
+        as: 'city',
       });
       this.belongsTo(models.AreaDistrict, {
         foreignKey: 'district_id',
+        as: 'district',
       });
       this.belongsTo(models.AreaVillage, {
         foreignKey: 'village_id',
+        as: 'village',
       });
     }
   }

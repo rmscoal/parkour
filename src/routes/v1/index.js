@@ -3,6 +3,7 @@ const healthCheckRoute = require('./healthCheck.route');
 const parkingRoute = require('./parking.route');
 const analyticRoute = require('./analytic.route');
 const areaRoute = require('./area.route');
+const merchantRoute = require('./merchant.route');
 
 const router = express.Router();
 
@@ -22,6 +23,10 @@ const v1Routes = [
   {
     path: '/get/area',
     route: areaRoute,
+  },
+  {
+    path: '/merchant/',
+    route: merchantRoute,
   },
 ];
 
