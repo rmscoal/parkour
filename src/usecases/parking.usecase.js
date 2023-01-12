@@ -4,7 +4,7 @@ const { QueryTypes } = require('sequelize');
 const config = require('../config/config');
 const { Parking, sequelize } = require('../db/models');
 const ApiError = require('../utils/ApiError');
-const parkingPaymentCalculator = require('./parkingPaymentCalculator');
+const { parkingCalculator } = require('../services/parking');
 
 /**
  * @typedef {Object} ParkingData
@@ -100,7 +100,7 @@ const unregisterParking = async (parkingData) => {
     }
 
     car.out_time = new Date(new Date().toLocaleString('sv', { timeZone: config.timeZone }));
-    car.total = await parkingPaymentCalculator({
+    car.total = await parkingCalculator.calculateParkingFee({
       inTime: car.in_time,
       outTime: car.out_time,
       vechType: car.vech_type,
